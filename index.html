@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alaska - Enfrentando Haters</title>
-    <!-- Importando fontes e estilos necessários que estavam na estrutura do seu site -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
     <style type="text/css">
       @media (min-width: 768px) { .content-wrap { padding-top: 30px !important; padding-bottom: 5px !important; } }
@@ -133,7 +132,7 @@
             <canvas id="cb_canvas"></canvas>
 
             <div id="cb_start-screen" class="cb_screen">
-                <img class="alaska-logo" style="height: 170px !important;" src="https://thevacilos.com/arquivos/jogos/alaska/logo.png" onerror="this.style.display='none'" alt="Alaska Logo">
+                <img class="alaska-logo" style="height: 170px !important;" src="arquivos/jogos/alaska/logo.png" alt="Alaska Logo">
                 <h1 style="color: #fff; font-size: 45px; text-shadow: 0 0 10px #00ffff; margin-bottom: 5px;">ALASKA</h1>
                 <p style="color:#aaddff; letter-spacing: 1px; margin: 10px 0;">ENFRENTANDO HATERS 🏎️✨</p>
                 <div class="cb_btn-group">
@@ -198,14 +197,15 @@
                 const closeRankingBtn = document.getElementById('cb_close-ranking');
                 const rankingTriggers = document.querySelectorAll('.cb_trigger-ranking');
 
+                // CORRIGIDO: Agora os caminhos apontam para a pasta local no repositório do GitHub Pages
                 const tracks = [
-                    "https://thevacilos.com/arquivos/jogos/alaska/musicas/Coldboy - Estorcomo (Speed Version).wav",
-                    "https://thevacilos.com/arquivos/jogos/alaska/musicas/Coldboy - TIC TAC (Speed Version).wav",
-                    "https://thevacilos.com/arquivos/jogos/alaska/musicas/Coldboy - 21 (Speed Version).wav",
-                    "https://thevacilos.com/arquivos/jogos/alaska/musicas/Coldboy - Bala na Agua (Speed Version).wav",
-                    "https://thevacilos.com/arquivos/jogos/alaska/musicas/Coldboy - Come Come  (Speed Version).wav",
-                    "https://thevacilos.com/arquivos/jogos/alaska/musicas/Coldboy - DQD (Speed Version).wav",
-                    "https://thevacilos.com/arquivos/jogos/alaska/musicas/Coldboy - Só Deus Pode Julgar (Speed Version).wav"
+                    "arquivos/jogos/alaska/musicas/Coldboy - Estorcomo (Speed Version).wav",
+                    "arquivos/jogos/alaska/musicas/Coldboy - TIC TAC (Speed Version).wav",
+                    "arquivos/jogos/alaska/musicas/Coldboy - 21 (Speed Version).wav",
+                    "arquivos/jogos/alaska/musicas/Coldboy - Bala na Agua (Speed Version).wav",
+                    "arquivos/jogos/alaska/musicas/Coldboy - Come Come  (Speed Version).wav",
+                    "arquivos/jogos/alaska/musicas/Coldboy - DQD (Speed Version).wav",
+                    "arquivos/jogos/alaska/musicas/Coldboy - Só Deus Pode Julgar (Speed Version).wav"
                 ];
                 let currentTrackIndex = 0;
                 gameMusic.src = tracks[0];
@@ -264,14 +264,13 @@
                 const finalScoreEl = document.getElementById('cb_final-score');
                 const finalHighScoreEl = document.getElementById('cb_final-high-score');
 
-                // Recorde salvo usando o LocalStorage do navegador
                 let highScore = localStorage.getItem('alaska_highscore') ? parseInt(localStorage.getItem('alaska_highscore')) : 0;
                 highScoreEl.innerText = "RECORD: " + highScore;
 
                 let running = false, score = 0, speed = 6.5, frameCount = 0;
                 let obstacles = [], items = [], snowParticles = [], mountains = [], floatingTexts = [];
                 let speedTierReached = false;
-                let unlockedSeconds = 0;
+                let unlockedSeconds = 30; // CORRIGIDO: Começa liberando os primeiros 30 segundos
                 const groundHeight = 85;
                 
                 let goldenMicCount = 0; 
@@ -281,7 +280,7 @@
                 const basePhrases = ["SKRT SKRT!", "GANG GANG!", "É SAL!", "PIVETE!", "777!", "AGARAGAM!", "GROVE STREET!", "ESQUECE!", "TÁ BIGODE!", "PELAS ALAMEDAS!", "BROCAS!", "FLACKO!", "BCN!", "É A GANG!"];
                 const lifestylePhrases = ["REVOADA!", "FAZ O CAIXA!", "PURPLE DRINK!", "ICE NO PESCOÇO!", "VVS NO BEAT!", "RATARIA!", "MÁXIMO RESPEITO!", "VIVA A VILA!", "NO TOPO!", "MANTÉM!", "MÉXICO!", "TU É UM BOOT!", "SÓ AGRADECE!"];
 
-                gameMusic.onerror = () => { audioStatus.innerText = "🔇 Áudio Offline (Portfólio)"; };
+                gameMusic.onerror = () => { audioStatus.innerText = "🔇 Erro ao carregar faixa"; };
 
                 function updateVolumeDisplay() { volDisplay.innerText = "VOL: " + Math.round(currentVolume * 100) + "%"; }
                 
@@ -372,20 +371,22 @@
                 }
 
                 function manageMusicProgress() {
-                    const targetUnlock = Math.floor(score / 100) * 30;
+                    // CORRIGIDO: Sistema de travas de áudio simplificado baseado no score
+                    const targetUnlock = 30 + (Math.floor(score / 250) * 30);
                     if (targetUnlock > unlockedSeconds) {
                         unlockedSeconds = targetUnlock;
                         unlockMsg.style.opacity = "1"; setTimeout(() => unlockMsg.style.opacity = "0", 2000);
                     }
-                    if (gameMusic.currentTime >= unlockedSeconds && unlockedSeconds > 0) {
-                        gameMusic.currentTime = Math.max(0, unlockedSeconds - 2);
+                    
+                    if (gameMusic.currentTime >= unlockedSeconds) {
+                        gameMusic.currentTime = Math.max(0, unlockedSeconds - 3);
                         audioStatus.innerText = "⏳ Ganhe mais Hype para continuar!";
-                    } else if (unlockedSeconds > 0) {
-                        if (gameMusic.paused) gameMusic.play().catch(() => {});
+                    } else {
+                        if (gameMusic.paused && running) gameMusic.play().catch(() => {});
                         const mins = Math.floor(unlockedSeconds / 60); const secs = unlockedSeconds % 60;
                         audioStatus.innerText = `🔊 Beat: ${mins}:${secs < 10 ? '0' : ''}${secs} liberados`;
                     }
-                    const progress = (score % 100); progressBarFill.style.width = `${progress}%`;
+                    const progress = ((score % 250) / 250) * 100; progressBarFill.style.width = `${progress}%`;
                 }
 
                 function update() {
@@ -517,7 +518,6 @@
                             </div>`;
                 }
 
-                // Carrega ranking estático simulado para o portfólio
                 function carregarRanking() {
                     rankingList.innerHTML = '';
                     rankingFixed.innerHTML = '';
@@ -575,7 +575,7 @@
                 function start() {
                     running = true; score = 0; frameCount = 0; goldenMicCount = 0; goldenMicOnScreen = false;
                     currentTrackIndex = 0; gameMusic.src = tracks[0];
-                    speedTierReached = false; unlockedSeconds = 0;
+                    speedTierReached = false; unlockedSeconds = 30; // CORRIGIDO
                     obstacles = []; items = []; floatingTexts = [];
                     speed = isMobile ? 4.5 : 6.5; player.x = isMobile ? 10 : 70;
                     container.style.background = "linear-gradient(180deg, #000810 0%, #001a33 100%)";
@@ -586,7 +586,15 @@
                     rankingModal.classList.add('cb_hidden'); 
 
                     gameMusic.currentTime = 0; gameMusic.volume = currentVolume; updateVolumeDisplay();
-                    gameMusic.play().then(() => { gameMusic.pause(); }).catch(() => {});
+                    
+                    // CORRIGIDO: Ativação forçada do play após interação real do clique do botão
+                    gameMusic.play().then(() => {
+                        audioStatus.innerText = "🔊 Beat Iniciado!";
+                    }).catch((err) => {
+                        console.log("Erro ao iniciar áudio:", err);
+                        audioStatus.innerText = "⚠️ Clique na tela para ativar som";
+                    });
+                    
                     lastTime = 0; requestAnimationFrame(gameLoop);
                     botUsedInSession = botActive;
                 }
