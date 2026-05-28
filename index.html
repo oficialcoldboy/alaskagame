@@ -116,7 +116,8 @@
 
     <div id="cb_game-wrapper">
       
-        <audio id="cb_game-music" src="https://thevacilos.com/arquivos/jogos/alaska/musicas/Coldboy - Estorcomo (Speed Version).wav" preload="auto" crossorigin="anonymous">O teu navegador não suporta este áudio.</audio>
+        <!-- CORREÇÃO: Removido o crossorigin para evitar bloqueio estrito do player de áudio -->
+        <audio id="cb_game-music" preload="auto">O teu navegador não suporta este áudio.</audio>
 
         <div id="cb_unlock-msg">🎵 +30s DE BEAT LIBERADO! 🧚‍♀️</div>
         <div id="cb_gold-mic-msg">📀 TROCA DE VIBE! 📀</div>
@@ -206,16 +207,18 @@
             const closeRankingBtn = document.getElementById('cb_close-ranking');
             const rankingTriggers = document.querySelectorAll('.cb_trigger-ranking');
 
+            // CORREÇÃO: Removido o espaço duplo na quinta música para evitar erro 404
             const tracks = [
                 "https://thevacilos.com/arquivos/jogos/alaska/musicas/Coldboy - Estorcomo (Speed Version).wav",
                 "https://thevacilos.com/arquivos/jogos/alaska/musicas/Coldboy - TIC TAC (Speed Version).wav",
                 "https://thevacilos.com/arquivos/jogos/alaska/musicas/Coldboy - 21 (Speed Version).wav",
                 "https://thevacilos.com/arquivos/jogos/alaska/musicas/Coldboy - Bala na Agua (Speed Version).wav",
-                "https://thevacilos.com/arquivos/jogos/alaska/musicas/Coldboy - Come Come  (Speed Version).wav",
+                "https://thevacilos.com/arquivos/jogos/alaska/musicas/Coldboy - Come Come (Speed Version).wav",
                 "https://thevacilos.com/arquivos/jogos/alaska/musicas/Coldboy - DQD (Speed Version).wav",
                 "https://thevacilos.com/arquivos/jogos/alaska/musicas/Coldboy - Só Deus Pode Julgar (Speed Version).wav"
             ];
             let currentTrackIndex = 0;
+            gameMusic.src = tracks[0];
 
             let isMobile = window.innerWidth < 768;
             const volDownBtn = document.getElementById('cb_vol-down');
@@ -343,9 +346,13 @@
                     unlockMsg.style.opacity = "1"; setTimeout(() => unlockMsg.style.opacity = "0", 2000);
                 }
                 
-                // CORREÇÃO: Evita forçar retrocesso de tempo se os metadados do arquivo não estiverem prontos (readyState < 1)
-                if (gameMusic.readyState >= 1 && gameMusic.currentTime >= unlockedSeconds) {
-                    gameMusic.currentTime = Math.max(0, unlockedSeconds - 3);
+                // CORREÇÃO: Verificação estrita de carregamento (readyState === 4) antes de forçar manipulação de tempo externo
+                if (gameMusic.readyState === 4 && gameMusic.currentTime >= unlockedSeconds) {
+                    try {
+                        gameMusic.currentTime = Math.max(0, unlockedSeconds - 3);
+                    } catch(e) {
+                        console.log("Ignorando limitação de tempo do CORS temporariamente");
+                    }
                     audioStatus.innerText = "⏳ Ganhe mais Hype para continuar!";
                 } else {
                     if (gameMusic.paused && running) {
