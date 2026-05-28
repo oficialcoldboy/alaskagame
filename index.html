@@ -116,7 +116,7 @@
 
     <div id="cb_game-wrapper">
       
-        <audio id="cb_game-music" preload="auto">O teu navegador não suporta este áudio.</audio>
+        <audio id="cb_game-music" src="https://thevacilos.com/arquivos/jogos/alaska/musicas/Coldboy - Estorcomo (Speed Version).wav" preload="auto" crossorigin="anonymous">O teu navegador não suporta este áudio.</audio>
 
         <div id="cb_unlock-msg">🎵 +30s DE BEAT LIBERADO! 🧚‍♀️</div>
         <div id="cb_gold-mic-msg">📀 TROCA DE VIBE! 📀</div>
@@ -216,7 +216,6 @@
                 "https://thevacilos.com/arquivos/jogos/alaska/musicas/Coldboy - Só Deus Pode Julgar (Speed Version).wav"
             ];
             let currentTrackIndex = 0;
-            gameMusic.src = tracks[0];
 
             let isMobile = window.innerWidth < 768;
             const volDownBtn = document.getElementById('cb_vol-down');
@@ -344,7 +343,8 @@
                     unlockMsg.style.opacity = "1"; setTimeout(() => unlockMsg.style.opacity = "0", 2000);
                 }
                 
-                if (gameMusic.currentTime >= unlockedSeconds) {
+                // CORREÇÃO: Evita forçar retrocesso de tempo se os metadados do arquivo não estiverem prontos (readyState < 1)
+                if (gameMusic.readyState >= 1 && gameMusic.currentTime >= unlockedSeconds) {
                     gameMusic.currentTime = Math.max(0, unlockedSeconds - 3);
                     audioStatus.innerText = "⏳ Ganhe mais Hype para continuar!";
                 } else {
