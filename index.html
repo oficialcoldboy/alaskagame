@@ -5,26 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alaska - Enfrentando Haters</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
-    <style type="text/css">
-      @media (min-width: 768px) { .content-wrap { padding-top: 30px !important; padding-bottom: 5px !important; } }
-      @media (max-width: 767px) { .content-wrap { padding-top: 15px !important; padding-bottom: 10px !important; } }
-      .gx-5 { --bs-gutter-x: 2rem !important; }
-    </style>
 </head>
 <body>
 
 <section id="content">
-  <div class="content-wrap">
-    <div class="container">
-      <div class="row gx-5">
-        <div class="col-md-12">
+  <div class="content-wrap" style="padding: 0 !important; margin: 0 !important;">
+    <div class="container-fluid" style="padding: 0 !important; margin: 0 !important;">
+      <div class="row" style="padding: 0 !important; margin: 0 !important;">
+        <div class="col-md-12" style="padding: 0 !important; margin: 0 !important;">
 
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap');
-            html, body { height: 100%; margin: 0; padding: 0; }
-            @media (max-width: 767px) { #cb_game-wrapper { height: 93dvh !important; } }
+            html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; background-color: #000810; }
             
-            #cb_game-wrapper { position: relative; width: 100%; height: 96.7vh; background: linear-gradient(180deg, #000810 0%, #001a33 100%); overflow: hidden; font-family: 'Oswald', sans-serif; touch-action: none; user-select: none; color: white; margin: 0; padding: 0; isolation: isolate; }
+            #cb_game-wrapper { position: relative; width: 100vw; height: 100vh; background: linear-gradient(180deg, #000810 0%, #001a33 100%); overflow: hidden; font-family: 'Oswald', sans-serif; touch-action: none; user-select: none; color: white; margin: 0; padding: 0; isolation: isolate; }
             #cb_game-wrapper canvas { display: block; width: 100%; height: 100%; }
             
             .cb_score-container { position: absolute; top: 8%; left: 5%; z-index: 20; pointer-events: none; display: flex; flex-direction: column; align-items: flex-start; line-height: 1.2; }
@@ -32,7 +26,6 @@
             #cb_high-score-display { color: #ffd700; font-size: 20px; font-weight: bold; text-shadow: 0 0 10px #ffd700; margin-top: 5px; }
             
             .cb_screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 5, 15, 0.95); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 30; text-align: center; padding: 20px; box-sizing: border-box; }
-            #cb_game-wrapper .cb_gta-wasted { color: #f00 !important; font-size: 80px !important; font-style: italic; text-shadow: 2px 2px 0px #000, 5px 5px 15px rgba(255, 0, 0, 0.5) !important; margin-top: 10px !important; }
             
             .cb_btn-group { display: flex; flex-direction: column; align-items: center; gap: 15px; margin-top: 25px; }
             .cb_btn { background: linear-gradient(180deg, #fafdff 0%, #e3f2ff 55%, #cfe6f7 100%); color: #001827; padding: 16px 45px; font-size: 20px; font-weight: bold; border-radius: 4px; border: 1px solid #bcd8ee; cursor: pointer; text-transform: uppercase; min-width: 260px; font-family: 'Oswald', sans-serif; box-shadow: 0 0 8px rgba(180, 220, 255, 0.6), inset 0 0 6px rgba(255, 255, 255, 0.9); }
@@ -76,10 +69,11 @@
             #cb_ranking-scroll::-webkit-scrollbar-track { background: #001a33; }
             #cb_ranking-scroll::-webkit-scrollbar-thumb { background: #004d99; border-radius: 4px; }
 
-            .cb_floating_bot_btn { position: fixed; width: 44px; height: 44px; background-color: #2c3034; border: 1px solid rgba(44, 48, 52,.09); top: 255px; right: 26px; padding: 0; border-radius: 3px; text-align: center; cursor: pointer; z-index: 9999; transition: all 0.25s ease; opacity: 0.7; color: white; font-size: 24px; display: flex; align-items: center; justify-content: center; }
-            .cb_floating_bot_btn:active { transform: scale(0.95); }
-            .cb_floating_bot_btn.active{ animation:freezeGlow 2s ease-in-out infinite alternate; }
-            @keyframes freezeGlow{ from{box-shadow:0 0 8px rgba(200,240,255,.7);} to{box-shadow:0 0 18px rgba(120,200,255,1);} }
+            /* Alterado de floting_bot_btn para cb_admin_btn */
+            .cb_admin_btn { position: fixed; padding: 8px 15px; background-color: #2c3034; border: 1px solid rgba(255,255,255,0.2); top: 20px; right: 20px; border-radius: 4px; text-align: center; cursor: pointer; z-index: 9999; transition: all 0.25s ease; opacity: 0.8; color: white; font-size: 14px; font-weight: bold; letter-spacing: 1px; display: flex; align-items: center; justify-content: center; }
+            .cb_admin_btn:active { transform: scale(0.95); }
+            .cb_admin_btn.active { background: linear-gradient(180deg, #00ffff 0%, #0088cc 100%); color: #000; border: 1px solid #00ffff; animation: adminGlow 2s ease-in-out infinite alternate; }
+            @keyframes adminGlow { from { box-shadow: 0 0 8px rgba(0,255,255,.5); } to { box-shadow: 0 0 18px rgba(0,255,255,1); } }
             
             .cb_btn-spotify { background: linear-gradient(180deg, #3a8f6a 0%, #2f7c5b 60%, #25684c 100%); color: #e9fff6; border: 1px solid #5fb996; box-shadow: 0 0 4px rgba(120, 200, 170, 0.35), inset 0 0 5px rgba(255, 255, 255, 0.18); text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
             .cb_btn-spotify:hover { background: linear-gradient(180deg, #347f60 0%, #2a6f53 60%, #215a44 100%); color: #e9fff6; }
@@ -103,7 +97,7 @@
 
         <div id="cb_game-wrapper">
           
-            <button id="cb_bot-btn" class="cb_floating_bot_btn" aria-label="Ativar Bot">❄️</button>
+            <button id="cb_admin-btn" class="cb_admin_btn" aria-label="Ativar Modo Admin">MODO ADMIN: OFF</button>
 
             <audio id="cb_game-music" preload="auto">O teu navegador não suporta este áudio.</audio>
 
@@ -152,7 +146,7 @@
                 <div class="cb_btn-group">
                     <button class="cb_btn" id="cb_retry-btn">TENTAR DE NOVO</button>
                     <button class="cb_btn cb_btn-ranking cb_trigger-ranking">RANKING GERAL</button>
-                    <a href="https://open.spotify.com/artist/0lRMbW1qJtzwrCzPgHvVV3" target="_blank" class="cb_btn cb_btn-spotify">CURTIR NO SPOTIFY</a>
+                    <a href="https://open.spotify.com" target="_blank" class="cb_btn cb_btn-spotify">CURTIR NO SPOTIFY</a>
                     <p style="color: #666; font-size: 11px; margin-top: -10px;">(Pressione ESPAÇO para tentar de novo)</p>
                 </div>
             </div>
@@ -197,7 +191,6 @@
                 const closeRankingBtn = document.getElementById('cb_close-ranking');
                 const rankingTriggers = document.querySelectorAll('.cb_trigger-ranking');
 
-                // CORRIGIDO: Agora os caminhos apontam para a pasta local no repositório do GitHub Pages
                 const tracks = [
                     "arquivos/jogos/alaska/musicas/Coldboy - Estorcomo (Speed Version).wav",
                     "arquivos/jogos/alaska/musicas/Coldboy - TIC TAC (Speed Version).wav",
@@ -215,8 +208,8 @@
                 const volUpBtn = document.getElementById('cb_vol-up');
                 const volDisplay = document.getElementById('cb_volume-display');
                 
-                const botBtn = document.getElementById('cb_bot-btn');
-                let botActive = false;
+                const adminBtn = document.getElementById('cb_admin-btn');
+                let adminAutoJump = false;
                 let botUsedInSession = false; 
                 let wakeLock = null;
 
@@ -236,21 +229,23 @@
                 }
 
                 document.addEventListener('visibilitychange', async () => {
-                    if (wakeLock !== null && document.visibilityState === 'visible' && botActive) {
+                    if (wakeLock !== null && document.visibilityState === 'visible' && adminAutoJump) {
                         await requestWakeLock();
                     }
                 });
 
-                if(botBtn) {
-                    botBtn.addEventListener('click', function(e) {
+                if(adminBtn) {
+                    adminBtn.addEventListener('click', function(e) {
                         e.stopPropagation();
-                        botActive = !botActive;
-                        if(botActive) {
+                        adminAutoJump = !adminAutoJump;
+                        if(adminAutoJump) {
                             botUsedInSession = true;
                             this.classList.add('active');
+                            this.innerText = "MODO ADMIN: ON";
                             requestWakeLock();
                         } else {
                             this.classList.remove('active');
+                            this.innerText = "MODO ADMIN: OFF";
                             releaseWakeLock();
                         }
                     });
@@ -270,7 +265,7 @@
                 let running = false, score = 0, speed = 6.5, frameCount = 0;
                 let obstacles = [], items = [], snowParticles = [], mountains = [], floatingTexts = [];
                 let speedTierReached = false;
-                let unlockedSeconds = 30; // CORRIGIDO: Começa liberando os primeiros 30 segundos
+                let unlockedSeconds = 30; 
                 const groundHeight = 85;
                 
                 let goldenMicCount = 0; 
@@ -289,8 +284,8 @@
 
                 function resize() {
                     const dpr = window.devicePixelRatio || 1;
-                    const width = container.clientWidth;
-                    const height = container.clientHeight;
+                    const width = window.innerWidth;
+                    const height = window.innerHeight;
 
                     canvas.width = width * dpr;
                     canvas.height = height * dpr;
@@ -305,11 +300,11 @@
                 function initEnvironment() {
                     snowParticles = [];
                     for (let i = 0; i < 60; i++) {
-                        snowParticles.push({ x: Math.random() * container.clientWidth, y: Math.random() * container.clientHeight, size: Math.random() * 2 + 1, speed: Math.random() * 1.5 + 0.5 });
+                        snowParticles.push({ x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight, size: Math.random() * 2 + 1, speed: Math.random() * 1.5 + 0.5 });
                     }
                     mountains = [];
                     for (let i = 0; i < 5; i++) {
-                        mountains.push({ x: i * (container.clientWidth / 3), w: container.clientWidth * 0.8, h: 150 + Math.random() * 200 });
+                        mountains.push({ x: i * (window.innerWidth / 3), w: window.innerWidth * 0.8, h: 150 + Math.random() * 200 });
                     }
                 }
 
@@ -337,7 +332,7 @@
                     
                     if (frameCount % spawnInterval === 0) {
                         if (Math.random() > 0.4) {
-                            obstacles.push({ x: container.clientWidth, y: container.clientHeight - groundHeight - 45, w: 45, h: 45 });
+                            obstacles.push({ x: window.innerWidth, y: window.innerHeight - groundHeight - 45, w: 45, h: 45 });
                         }
                     }
                     
@@ -349,8 +344,8 @@
                         }
 
                         if (spawnGold) {
-                            let itemY = container.clientHeight - groundHeight - (Math.random() * 150 + 100);
-                            items.push({ x: container.clientWidth, y: itemY, w: 50, h: 50, emoji: "🎙️",  val: 5000, type: 'gold_mic' });
+                            let itemY = window.innerHeight - groundHeight - (Math.random() * 150 + 100);
+                            items.push({ x: window.innerWidth, y: itemY, w: 50, h: 50, emoji: "🎙️",  val: 5000, type: 'gold_mic' });
                             goldenMicOnScreen = true;
                         } else {
                             let emoji = "🎤", val = 250, type = 'normal';
@@ -360,8 +355,8 @@
                                 else if (rand > 0.6) { emoji = "💰"; val = 750; } 
                                 else if (rand > 0.4) { emoji = "🌿"; val = 500; }
                             }
-                            let itemY = container.clientHeight - groundHeight - (Math.random() * 200 + 100);
-                            items.push({ x: container.clientWidth, y: itemY, w: 40, h: 40, emoji, val, type });
+                            let itemY = window.innerHeight - groundHeight - (Math.random() * 200 + 100);
+                            items.push({ x: window.innerWidth, y: itemY, w: 40, h: 40, emoji, val, type });
                         }
                     }
                 }
@@ -371,7 +366,6 @@
                 }
 
                 function manageMusicProgress() {
-                    // CORRIGIDO: Sistema de travas de áudio simplificado baseado no score
                     const targetUnlock = 30 + (Math.floor(score / 250) * 30);
                     if (targetUnlock > unlockedSeconds) {
                         unlockedSeconds = targetUnlock;
@@ -392,7 +386,8 @@
                 function update() {
                     if (!running) return;
                     
-                    if (botActive && player.grounded) {
+                    /* Inteligência de pulo automático ativada pelo MODO ADMIN */
+                    if (adminAutoJump && player.grounded) {
                         let closestObs = null; let distToObs = 99999;
                         obstacles.forEach(obs => {
                             let dist = obs.x - (player.x + player.w - 5); 
@@ -405,7 +400,7 @@
                             items.forEach(item => {
                                 if (item.x > player.x) {
                                     let distItem = item.x - player.x; let idealDist = speed * 21; 
-                                    if (Math.abs(distItem - idealDist) < (speed * 6) && item.y < (container.clientHeight - groundHeight - 60)) { targetItem = item; }
+                                    if (Math.abs(distItem - idealDist) < (speed * 6) && item.y < (window.innerHeight - groundHeight - 60)) { targetItem = item; }
                                 }
                             });
                             if (targetItem) {
@@ -427,16 +422,16 @@
                     }
                     if (score >= 2000) container.style.background = "linear-gradient(180deg, #200 0%, #000 100%)";
 
-                    mountains.forEach(m => { m.x -= speed * 0.15; if (m.x + m.w < 0) m.x = container.clientWidth; });
-                    snowParticles.forEach(p => { p.y += p.speed * (speed / 4); if (p.y > container.clientHeight) p.y = -10; });
+                    mountains.forEach(m => { m.x -= speed * 0.15; if (m.x + m.w < 0) m.x = window.innerWidth; });
+                    snowParticles.forEach(p => { p.y += p.speed * (speed / 4); if (p.y > window.innerHeight) p.y = -10; });
                     for (let i = floatingTexts.length - 1; i >= 0; i--) {
                         floatingTexts[i].y -= 2; floatingTexts[i].alpha -= 0.02;
                         if (floatingTexts[i].alpha <= 0) floatingTexts.splice(i, 1);
                     }
 
                     player.dy += player.gravity; player.y += player.dy;
-                    if (player.y > container.clientHeight - groundHeight - player.h) {
-                        player.y = container.clientHeight - groundHeight - player.h; player.dy = 0; player.grounded = true;
+                    if (player.y > window.innerHeight - groundHeight - player.h) {
+                        player.y = window.innerHeight - groundHeight - player.h; player.dy = 0; player.grounded = true;
                     }
 
                     spawn();
@@ -474,13 +469,13 @@
                 }
 
                 function draw() {
-                    ctx.clearRect(0, 0, container.clientWidth, container.clientHeight);
+                    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
                     ctx.fillStyle = score >= 2000 ? "rgba(40, 0, 40, 0.6)" : "rgba(0, 30, 60, 0.6)";
-                    mountains.forEach(m => { ctx.beginPath(); ctx.moveTo(m.x, container.clientHeight - groundHeight); ctx.lineTo(m.x + m.w / 2, container.clientHeight - groundHeight - m.h); ctx.lineTo(m.x + m.w, container.clientHeight - groundHeight); ctx.fill(); });
+                    mountains.forEach(m => { ctx.beginPath(); ctx.moveTo(m.x, window.innerHeight - groundHeight); ctx.lineTo(m.x + m.w / 2, window.innerHeight - groundHeight - m.h); ctx.lineTo(m.x + m.w, window.innerHeight - groundHeight); ctx.fill(); });
                     ctx.fillStyle = score >= 2000 ? "#ffeb3b" : "rgba(255, 255, 255, 0.6)";
                     snowParticles.forEach(p => { ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill(); });
-                    ctx.fillStyle = "#050505"; ctx.fillRect(0, container.clientHeight - groundHeight, container.clientWidth, groundHeight);
-                    ctx.fillStyle = score >= 2000 ? "#00ffff" : "#ff0000"; ctx.fillRect(0, container.clientHeight - groundHeight, container.clientWidth, 4);
+                    ctx.fillStyle = "#050505"; ctx.fillRect(0, window.innerHeight - groundHeight, window.innerWidth, groundHeight);
+                    ctx.fillStyle = score >= 2000 ? "#00ffff" : "#ff0000"; ctx.fillRect(0, window.innerHeight - groundHeight, window.innerWidth, 4);
                     floatingTexts.forEach(ft => { ctx.font = "bold 24px Oswald"; ctx.fillStyle = `rgba(${ft.color === "#ff0000" ? "255,0,0" : "255,0,255"}, ${ft.alpha})`; ctx.textAlign = "center"; ctx.fillText(ft.text, ft.x + 25, ft.y - 10); });
                     drawPlayer(player.x, player.y);
                     ctx.font = "40px Arial"; ctx.textAlign = "center";
@@ -575,11 +570,11 @@
                 function start() {
                     running = true; score = 0; frameCount = 0; goldenMicCount = 0; goldenMicOnScreen = false;
                     currentTrackIndex = 0; gameMusic.src = tracks[0];
-                    speedTierReached = false; unlockedSeconds = 30; // CORRIGIDO
+                    speedTierReached = false; unlockedSeconds = 30; 
                     obstacles = []; items = []; floatingTexts = [];
                     speed = isMobile ? 4.5 : 6.5; player.x = isMobile ? 10 : 70;
                     container.style.background = "linear-gradient(180deg, #000810 0%, #001a33 100%)";
-                    player.y = container.clientHeight - groundHeight - player.h;
+                    player.y = window.innerHeight - groundHeight - player.h;
                     scoreEl.innerText = "HYPE: 0";
                     startScreen.classList.add('cb_hidden');
                     gameOverScreen.classList.add('cb_hidden');
@@ -587,7 +582,6 @@
 
                     gameMusic.currentTime = 0; gameMusic.volume = currentVolume; updateVolumeDisplay();
                     
-                    // CORRIGIDO: Ativação forçada do play após interação real do clique do botão
                     gameMusic.play().then(() => {
                         audioStatus.innerText = "🔊 Beat Iniciado!";
                     }).catch((err) => {
@@ -596,7 +590,7 @@
                     });
                     
                     lastTime = 0; requestAnimationFrame(gameLoop);
-                    botUsedInSession = botActive;
+                    botUsedInSession = adminAutoJump;
                 }
 
                 function gameOver() {
@@ -615,8 +609,8 @@
                     finalHighScoreEl.innerText = highScore;
                     gameOverScreen.classList.remove('cb_hidden');
 
-                    if (botActive) {
-                        setTimeout(() => { if (botActive && !running) { const retryBtn = document.getElementById('cb_retry-btn'); if (retryBtn) retryBtn.click(); } }, 1500);
+                    if (adminAutoJump) {
+                        setTimeout(() => { if (adminAutoJump && !running) { const retryBtn = document.getElementById('cb_retry-btn'); if (retryBtn) retryBtn.click(); } }, 1500);
                     }
                 }
 
@@ -641,7 +635,7 @@
                     }
 
                     if (e.code === 'Space') {
-                        if (botActive) return;
+                        if (adminAutoJump) return;
                         if(!rankingModal.classList.contains('cb_hidden')) return;
                         
                         if (running) { 
@@ -657,16 +651,16 @@
                 });
 
                 window.addEventListener('touchstart', (e) => {
-                    if (e.target.closest('#cb_volume-wrapper') || e.target.closest('#cb_bot-btn') || e.target.closest('#cb_ranking-modal')) return;
-                    if (botActive) return;
+                    if (e.target.closest('#cb_volume-wrapper') || e.target.closest('#cb_admin-btn') || e.target.closest('#cb_ranking-modal')) return;
+                    if (adminAutoJump) return;
                     if (!running) return;
                     jumpAction();
                     if (e.target.closest('#cb_game-wrapper') && e.target.tagName !== 'A' && e.target.tagName !== 'BUTTON' && e.target.tagName !== 'INPUT') { e.preventDefault(); }
                 }, { passive: false });
 
                 window.addEventListener('mousedown', (e) => {
-                    if (running && e.target.closest('#cb_game-wrapper') && e.target.tagName !== 'BUTTON' && e.target.tagName !== 'INPUT' && !e.target.closest('#cb_volume-wrapper') && !e.target.closest('#cb_bot-btn') && !e.target.closest('#cb_ranking-modal')) {
-                        if (!botActive) { jumpAction(); }
+                    if (running && e.target.closest('#cb_game-wrapper') && e.target.tagName !== 'BUTTON' && e.target.tagName !== 'INPUT' && !e.target.closest('#cb_volume-wrapper') && !e.target.closest('#cb_admin-btn') && !e.target.closest('#cb_ranking-modal')) {
+                        if (!adminAutoJump) { jumpAction(); }
                     }
                 });
 
